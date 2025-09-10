@@ -9,16 +9,16 @@
 > `UILabel` 을 사용해서 수식을 표시할 수 있는 라벨을 띄웁니다.
 >
 >- 속성
-  - `backgroundColer = .black`
-  - `textColor = .white`
-  - 우선 텍스트는 `12345` 로 고정
-  - 텍스트 오른쪽 정렬
-  - Font = 시스템 볼드체, 사이즈 60
+>  - `backgroundColer = .black`
+>  - `textColor = .white`
+>  - 우선 텍스트는 `12345` 로 고정
+>  - 텍스트 오른쪽 정렬
+>  - Font = 시스템 볼드체, 사이즈 60
 >  
 >- AutoLayout
-  - leading, trailing = superView 로 부터 30 떨어지도록 세팅
-  - top = superView 로 부터 200 떨어지도록 세팅
-  - height = 100
+>  - leading, trailing = superView 로 부터 30 떨어지도록 세팅
+ > - top = superView 로 부터 200 떨어지도록 세팅
+  >- height = 100
   
   일단 Xcode 실행을 먼저 해준 뒤 Lv1을 만들어 보겠습니다.
   이 부분은 제가 강의 들으면서 배웠던 부분이라서 아마 그래도... 조금은 쉽게(?) 만들 수 있지 않을까 싶은데...
@@ -153,21 +153,21 @@ AutoLayout 부분에서 정말 너무 힘들었는데요...
 -------------
 #### Lv2.
 > `UIStackView` 을 사용해서 4개의 버튼을 모아 가로 스택뷰 생성
- - `UIButton` 속성
-   - `font = .boldSystemFont(ofSize: 30`
-   - `backgroundColor = UIColor(red: 58/255, green: 58/255m blue: 58/255, alpha: 1.0)`
-   - `height = 80`
-   - `width = 80`
-   - `layer.cornerRadius = 40`
- - `horizontalStackView` 속성
-   - `axis = .horizontal`
-   - `backgroundColor = .black`
-   - `spacing = 10`
-   - `distribution = .fillEqually`
- - `horizontalStackView AutoLayout`
-   - `height = 80`
+>- `UIButton` 속성
+>   - `font = .boldSystemFont(ofSize: 30`
+>   - `backgroundColor = UIColor(red: 58/255, green: 58/255m blue: 58/255, alpha: 1.0)`
+>  - `height = 80`
+> - `width = 80`
+>   - `layer.cornerRadius = 40`
+> - `horizontalStackView` 속성
+>   - `axis = .horizontal`
+>   - `backgroundColor = .black`
+>   - `spacing = 10`
+>   - `distribution = .fillEqually`
+> - `horizontalStackView AutoLayout`
+>   - `height = 80`
    >
-📌 힌트: `func makeHorizontalStackView(_ views: [UIView]) -> UIStackView`와 같은 형태로 horizontalStackView를 생성하는 메서드를 정의해두면 좋습니다. 똑같은 스택뷰 4줄이 필요하기 때문이죠
+>📌 힌트: `func makeHorizontalStackView(_ views: [UIView]) -> UIStackView`와 같은 형태로 horizontalStackView를 생성하는 메서드를 정의해두면 좋습니다. 똑같은 스택뷰 4줄이 필요하기 때문이죠
 
 
 Lv2부터는 스냅킷을 넣어서 만들어보았습니다
@@ -296,4 +296,146 @@ Xcode는 한 화면만 보여준다고 해야되나 그래서 제가 이 버튼�
 <img width="606" height="1166" alt="스크린샷 2025-09-09 오후 8 34 09" src="https://github.com/user-attachments/assets/cea228d8-0afc-465e-a369-dd813c09b6ca" />
 
 저... 이번주 안에 Lv5까지 할 수 있겠죠...?
+---------------------------
+Lv3.
 
+> `UIStackView`를 사용해서 세로 스택 뷰 생성. 왼쪽과 같이 구성해보세요
+>  - `verticalStackView`속성
+>     - `axis = .vertical`
+>     - `backgroundColor = .black`
+>     - `spacing = 10`
+>     - `distribution = .fillEqually`
+>   
+> - `verticalStackView AutoLayout`
+>     - width = 350
+>     - top = label의 bottom으로부터 60 떨어지도록
+>     - centerX = superView와 같도록
+
+그냥 슥 봤을 때 Lv2랑 비슷하게 만들면 될 거 같습니당 다른 거는 Lv2때보다 여러개의 버튼을 추가해야된다는 점...?
+일단 해보겠습니다~~ 고민할 시간에 코드 하나라도 더 쳐봐야될 거 같아요
+
+```
+ _ = ["4", "5", "6", "-"]
+        let verticalStackView = UIStackView()
+        verticalStackView.axis = .vertical // 세로 방향으로 설정
+        verticalStackView.backgroundColor = .black
+        verticalStackView.spacing = 10 // 뷰 간의 간격 설정
+        verticalStackView.distribution = .fillEqually // 뷰들이 동일한 높이를 갖도록 설정
+        
+        for _ in titles {
+            let button1 = UIButton (type: .system)
+            button1.setTitle("두번째 줄", for: .normal)
+            button1.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
+            button1.setTitleColor(.white, for: .normal)
+            verticalStackView.addArrangedSubview(button1)
+            
+            
+        }
+        
+        view.addSubview(verticalStackView)
+            NSLayoutConstraint.activate([
+            verticalStackView.widthAnchor.constraint(equalToConstant: 350),
+            verticalStackView.topAnchor.constraint(equalToSystemSpacingBelow: label.bottomAnchor, multiplier: 60),
+            verticalStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+}
+
+```
+<img width="606" height="1166" alt="스크린샷 2025-09-10 오후 3 08 06" src="https://github.com/user-attachments/assets/ff80d1b4-3576-43ea-87bb-6b1b39b1c7bf" />
+
+코드를 나름 잘 작성했다고 뿌듯해하면서 시뮬레이션을 돌렸는데 ㅎ 이러언 제가 또 이상한 도전을 한 건지 이상한 곳에 코드를 친 건지 찾을 수가 없습니다
+뭔가 느낌상 음... 제가 잘못 적은 거 같기때문에 조금 더 조사를 해보고 처음부터 다시 만들어보겠습니당
+
+
+찾다가 제가 아주 치명적인 실수를 했단 사실을 알게 되었습니다...
+`verticalStackView.translatesAutoresizingMaskIntoConstraints = false` 이 코드를 적어주지 않아서 빌드 화면에 뜨지 않았던거였습니다...!!
+
+<img width="606" height="1166" alt="스크린샷 2025-09-10 오후 3 32 41" src="https://github.com/user-attachments/assets/33858de3-b4b0-4468-8836-8a0dcf166fe2" />
+
+뭐가 뜨긴 하는 걸 보아하니 그나마 다행이에요 코드 위치랑 크기만 좀 손 봐주면 잘 나올 거 같은 느낌이 들었지만
+제 느낌을 온전히 믿을 수만은 없습니다. 현재 시각 3시 34분! 제가 꼭 4시까지 해결해낼 수 있길 바라며...!!
+
+
+```
+view.addSubview(verticalStackView)
+            NSLayoutConstraint.activate([
+            verticalStackView.widthAnchor.constraint(equalToConstant: 350),
+            verticalStackView.topAnchor.constraint(equalToSystemSpacingBelow: label.bottomAnchor, multiplier: 60),
+            verticalStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            verticalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            verticalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        ])
+
+```
+곰곰히 생각하다가 제가 Lv2에선 따로 넣으라는 말이 없긴 했지만 `leadingAnchor`랑 `trailingAnchor`를 넣었던게 생각이나서 한 번 넣어봤거든요
+
+<img width="606" height="1166" alt="스크린샷 2025-09-10 오후 3 46 09" src="https://github.com/user-attachments/assets/1ef88b1b-148b-46a5-84f0-7b0506a66176" />
+
+음... 그래도 가로길이가 맞아졌으니 다행인 거 같기두 하고... 좀 더 찾아보고 해결해봐야겠어여 4시에 못 끝낼 거 같은데,,,ㅎ
+
+제가 시뮬레이션 돌리는 화면이랑 Anchor들 위치들을 고민해봤는데 좌표때문에 그런가라는 생각이 들어서 조금 숫자를 바꿔봤거든요?
+```
+view.addSubview(verticalStackView)
+            NSLayoutConstraint.activate([
+            verticalStackView.widthAnchor.constraint(equalToConstant: 350),
+            verticalStackView.topAnchor.constraint(equalToSystemSpacingBelow: label.bottomAnchor, multiplier: 25),
+            verticalStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            verticalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            verticalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            verticalStackView.heightAnchor.constraint(equalToConstant: 300)
+        ])
+```
+topAnchor를 수정했는데 과제 조건과 맞지 않는 숫자거든요...
+
+<img width="606" height="1166" alt="스크린샷 2025-09-10 오후 3 53 33" src="https://github.com/user-attachments/assets/b5bf91dd-2c44-4a49-8fda-431e7bc68d51" />
+
+뭐가 잘못된 건 확실합니다... 숫자를 계속 바꿔봐야겠어여 제 느낌이 그래요!!!!!!
+
+숫자는 더 이상 건들지 않고 for문을 title로 바꿨는데
+
+```
+ titles = ["4", "5", "6", "-"]
+        titles = ["1", "2", "3", "*"]
+        titles = ["AC", "0", "=", "/"]
+        let verticalStackView = UIStackView()
+        verticalStackView.axis = .vertical // 세로 방향으로 설정
+        verticalStackView.backgroundColor = .black
+        verticalStackView.spacing = 10 // 뷰 간의 간격 설정
+        verticalStackView.distribution = .fillEqually // 뷰들이 동일한 높이를 갖도록 설정
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        for title in titles {
+            let button1 = UIButton()
+            button1.setTitle(title, for: .normal)
+            button1.titleLabel?.font = .boldSystemFont(ofSize: 30)
+            button1.setTitleColor(.white, for: .normal)
+            button1.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
+            verticalStackView.addArrangedSubview(button1)
+            
+
+```
+
+<img width="606" height="1166" alt="스크린샷 2025-09-10 오후 4 15 24" src="https://github.com/user-attachments/assets/7fb9b189-40d9-46b2-ab1e-c6f6b1b21f68" />
+
+이렇게 뜨는 걸 보아하니 제가 세로 정렬로 설정해놓고 숫자는 가로 배열로 적어둬서 생긴 일 같습니다
+
+```
+titles = ["4", "1", "AC"]
+        titles = ["5", "2", "0"]
+        titles = ["6", "3", "="]
+        titles = ["-", "*", "/"]
+```
+
+<img width="606" height="1166" alt="스크린샷 2025-09-10 오후 4 18 14" src="https://github.com/user-attachments/assets/98ef79bb-6c53-47e2-8ff0-be639d1ec71f" />
+
+코드를 고쳐주고 보니 세로로 잘 들어가긴 했는데 버튼끼리 나눠져있지가 않아서 한 줄만 보여요...
+한 줄 한 줄 적어줘야되는 걸까요...?
+
+튜터님께 다녀온 결과 타이틀이란 이름을 여러개 사용하면 나중되서 안 좋을 거라고 하셨습니다 하나하나 적어서 verticalStackView로 묶어버리는게 좋다고 하셔서 그렇게 해볼 예정입니다! 
+
+이것저것 해보다가 다 안 되길래 그냥 다 지워버렸습니다. 이제 완전 태초마을로 돌아가서 처음부터 차근차근해보겠습니다...
+아마 오늘 안에 못 끝낼 거 같긴한데 하는데까지 해봐야죠 뭐...
+
+찾아보다 보니까 그냥 Lv2부터 제가 잘못한게 아닌가라는 생각이 들었습니다. 힌트를 괜히 주신게 아닐텐데 왜 저는 계속 시간이 지나고 나서야 이런 생각을 하는 건지 원,,, 아무래도 태초마을로 돌아가는 김에 아예 더더덛덛더ㅓ더더ㅓ 태초마을로 가서 Lv2부터 시작해봐야겠습니다 만들어둔 건 아까우니 주석처리를 해두고 만들어볼게요!
