@@ -556,4 +556,4 @@ titles = ["4", "1", "AC"]
 
 <img width="559" height="1062" alt="스크린샷 2025-09-11 오후 5 11 44" src="https://github.com/user-attachments/assets/78821b1f-013e-4ec3-be89-e5d77a6a398a" />
 
-결론적으로 잘 만들었으니 다행이라고 해야될지... 참...
+결론적으로 완성했으니 된거겠죠...??
