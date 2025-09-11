@@ -275,7 +275,7 @@ hahahahahahahahahahahaha 사실 튜터님 도움 없이 혼자 해내고 싶었�
 혼자서 한 1시간 머리 붙잡고 한 거 같은데 튜터님 덕분에 10분도 안 되서 해결이 됐답니다~!!
 
 제 문제는 코드를 적은 위치였는데요 제가 원래 코드를 파일마다 나눠서 하려다가 생긴 문제였습니다.
-Xcode는 한 화면만 보여준다고 해야되나 그래서 제가 이 버튼에 대한 코드들을 라벨 코드 아래에 넣으니 문제 없이 잘 작동 했습니다!!
+초반에 ViewController만 보여달라고 적어두고 다른 파일에 적어서 작동이 안 됐습니다... 제가 이 버튼에 대한 코드들을 라벨 코드 아래에 넣으니 문제 없이 잘 작동 했습니다!!
 
 앗 그리고 제가 튜터님과 화면을 보면서 고치느라 문제됐던 화면 오류도 바로 고쳤습니다.
 
@@ -439,3 +439,143 @@ titles = ["4", "1", "AC"]
 아마 오늘 안에 못 끝낼 거 같긴한데 하는데까지 해봐야죠 뭐...
 
 찾아보다 보니까 그냥 Lv2부터 제가 잘못한게 아닌가라는 생각이 들었습니다. 힌트를 괜히 주신게 아닐텐데 왜 저는 계속 시간이 지나고 나서야 이런 생각을 하는 건지 원,,, 아무래도 태초마을로 돌아가는 김에 아예 더더덛덛더ㅓ더더ㅓ 태초마을로 가서 Lv2부터 시작해봐야겠습니다 만들어둔 건 아까우니 주석처리를 해두고 만들어볼게요!
+
+안녕하십니까? 레벨3을 붙잡고 있는지 무려 3일 째 되는 날입니다 오늘은 무슨 일이 있어도 레벨4까지 끝내겠습니다. 며칠 동안 만든 거를 갈아엎고 갈아엎고를 반복했는데 아무리 생각해도 제 생각이 잘못 된 거 같아서 그 생각을 다 고치고 고쳐진 생각들로 해보겠습니다. 먼저 만든 레벨2와 레벨3를 담는 칸이라고 해야되나요? 담는 곳을 제가 따로따로 만들려고 하니까 생긴 문제 같아서 그냥 다 지우고 레벨2랑 레벨3을 합쳐서 만들어보겠습니다. 만약 이 방법이 아니라 다른 방법이라면 아쉬운거고... 제가 아직 이해력이 부족한 걸로 넘겨야겠습니당 더 질질 끌 수가 없으니 호다닥 만들어볼게요!
+
+
+```
+// 버튼 데이터 (4줄)
+        let rows = [
+            ["7", "8", "9", "+"],
+            ["4", "5", "6", "-"],
+            ["1", "2", "3", "*"],
+            ["AC", "0", "=", "/"]
+        ]
+        
+        // 전체 세로 스택뷰
+        let verticalStackView = UIStackView()
+        verticalStackView.axis = .vertical
+        verticalStackView.spacing = 10
+        verticalStackView.distribution = .fillEqually
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(verticalStackView)
+        
+        // 세로 스택뷰 오토레이아웃
+        NSLayoutConstraint.activate([
+            verticalStackView.widthAnchor.constraint(equalToConstant: 350),
+            verticalStackView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 60),
+            verticalStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        // 각 줄(가로 스택뷰) 추가
+        for row in rows {
+            let buttons = row.map { makeButton(with: $0) } // 제목 -> 버튼
+            let rowStackView = makeHorizontalStackView(buttons) // 버튼 -> 가로줄
+            verticalStackView.addArrangedSubview(rowStackView) // 세로 스택뷰에 추가
+        }
+        
+    }
+    
+    // 버튼 만드는 함수
+    private func makeButton(with title: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 30)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
+        button.layer.cornerRadius = 40
+        return button
+    }
+    
+    // 가로 스택뷰 만드는 함수
+    private func makeHorizontalStackView(_ views: [UIView]) -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: views)
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        return stackView
+    }
+```
+`row`로 문자들을 한 줄 단위로 묶어주고 `for row in row`를 이용해 한 줄씩 꺼내준 뒤 `map`과 `for문`을 이용해 하나씩 꺼내서 버튼으로 변환했습니다. 
+
+<img width="559" height="1062" alt="스크린샷 2025-09-11 오후 3 33 08" src="https://github.com/user-attachments/assets/a5b0df5f-e006-4b76-87a4-955f7a76074a" />
+
+다행히 잘 작동을 하네요! 하 이 간단한 것을... 2일 넘게 투자했다니... 처음 제가 잘못 이해한 거랑 이후에 이해한 것도 혹시 몰라 넣어뒀습니당
+
+
+![IMG_3600](https://github.com/user-attachments/assets/d46c759c-6474-4d5d-a22c-115b4625e279)
+
+만약에 제가 처음 이해한 것이 맞는 방법이라면... 알려주세요 어떻게 하는 건지... 아무리 검색을 해도 제가 아직 검색 실력이 안 좋은 건가...? 전혀 찾지 못했습니다... 갑자기 제가 처음 이해한 것이 맞는 방법이라고 생각하니 무서워졌어요 하지만 저는 아직 나가야될 진도들이 있으니 무시하고 마저 해주겠습니당
+
+----------------------------
+
+#### Lv4.
+
+> 연산 버튼(+, -, *, /, AC, =)들은 색상을 orange로 설정.
+>
+> - 개발 효율성을 위한 팁
+>   버튼을 만드는 `func makeButton`이라는 메서드가 있었고 인자로 `titleValue: String`, `action: Selector`, `backgroundColor: UIColor`를 받을 수 있으면 편했겠죠.
+
+
+레벨4는 그나마 조금 쉬운 거 같습니다. 하지만? 저는 레벨3때도 그랬으니 만만하게 보지 않을 것입니다!!!!!!!!!!
+연산 버튼 색상들을 바꿔줘야되는데 버튼끼리 묶어둔 곳에 추가해줄게요 나중에 찾기 쉽게 하기 위해서요.
+
+```
+ button.backgroundColor = .orange
+```
+
+이렇게 추가하면 당연히 다 오렌지색으로 나오겠지요...
+
+<img width="559" height="1062" alt="스크린샷 2025-09-11 오후 4 33 26" src="https://github.com/user-attachments/assets/e8987c04-eb2e-490f-aca0-5b24ab072132" />
+
+(알고 있지만 해본 사람)
+연산버튼들을 하나하나 설정해줘야되나 싶지만 그렇게 되면 코드들이 너무 정신 없을 거고 알아보기 어려울 거 같아요.
+한 줄로 요약하면 = 너무 길고 귀찮음. 이럴 때 사용하라고 나온게 반복문 아닌가요? 연산자 버튼들만 오렌지컬러를 넣고 나머지 숫자 버튼들은 원래 색상을 그대로 가져가는 방법으로 가는게 좋을 거 같습니다. 
+
+```
+ if ["+", "-", "*", "/", "=", "AC"].contains(title){
+            button.backgroundColor = .orange
+        } else {
+            button.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
+        }
+```
+이렇게 하면 될 줄 알았는데
+
+<img width="559" height="1062" alt="스크린샷 2025-09-11 오후 4 55 38" src="https://github.com/user-attachments/assets/a9dce09a-d78e-4d1e-aaa8-82724fac6131" />
+
+안 되네여... 너무 만만하게 봤다... 헐 저 바본가봐요
+
+<img width="773" height="199" alt="스크린샷 2025-09-11 오후 4 57 33" src="https://github.com/user-attachments/assets/28cd119c-fd75-4ab7-9f42-23507e1e4e4b" />
+
+아니 버튼 배경색 처음 적용했던 거 안 지우고 해서 안 됐던 거였어요
+
+<img width="559" height="1062" alt="스크린샷 2025-09-11 오후 4 58 26" src="https://github.com/user-attachments/assets/99fece2f-5114-4844-a9a9-33c2fc147c93" />
+
+역시 코드는 보고 또 보고 계속 확인해야되는 이유를 이번 과제하면서 또 한 번 느낍니다. 이런식으로 잘못 적고~ 오타나고~ 그런게 한 두번이 아니에요,,, 그래도 다행이다 다시 다 지우고 태초마을 한번 더 다녀올 뻔 했어요. 더 이상 가고 싶지 않습니다 태초마을.
+
+------------------
+
+#### Lv5.
+
+> 모든 버튼들을 원형으로 만들기
+> - 힌트
+>   - HorizontalStackView의 높이 = 80
+>   - VerticalStackView의 가로 = 350.
+>   - VerticalStackView의 Spacing = 10
+>   - 그렇기 때문에 VerticalStackView에 들어가는 모든 버튼은 가로 길이가 (350 - 10 * 3) / 4 = 80 이 됨.
+>   - 즉 보든 버튼은 정사각형이 됨.
+>   - 버튼을 원형으로 만들기 위해서는 정사각형 버튼을 만들고, cornerRadius를 한 변 길이의 절반으로 설정하면 됩니다.
+>   - 여기까지 했으면 필수 구현들을 마쳤습니다.
+>   - 기본적인 UI구성이었습니다.
+>   - 이 다음 스텝들은 본격적인 로직의 영역입니다.
+
+
+음... 근데 저는 이미 동그라미입니다... 엇... 코드를 처음부터 뜯어고칠 때... Lv2에 있길래 따라 적었는데
+
+<img width="210" height="32" alt="스크린샷 2025-09-11 오후 5 09 57" src="https://github.com/user-attachments/assets/58b5110a-ac96-42d7-9aab-77b4a410a935" />
+
+<img width="559" height="1062" alt="스크린샷 2025-09-11 오후 5 11 44" src="https://github.com/user-attachments/assets/78821b1f-013e-4ec3-be89-e5d77a6a398a" />
+
+결론적으로 잘 만들었으니 다행이라고 해야될지... 참...
